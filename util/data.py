@@ -237,26 +237,9 @@ def load_mixtures_and_sources(batch):
         assert mix_info[1] == s1_info[1] and s1_info[1] == s2_info[1]
         # read wav file
        
-       # mix, _ = librosa.load(mix_path, sr=sample_rate)
+        mix, _ = librosa.load(mix_path, sr=sample_rate)
         s1, _ = librosa.load(s1_path, sr=sample_rate)
-        s2, _ = librosa.load(s2_path, sr=sample_rate)
-        #snr1 = random.randint(-100,100)/100.0
-                         
-        snr1 = 0#s1_info[2]
-        snr2 = snr1*-1
-        weight_1= math.pow(10,(snr1/20));
-        weight_2= math.pow(10,(snr2/20));
-        s1 = weight_1*s1
-        s2 = weight_2*s2
-        
-       # noise = np.random.randn(16000)*np.sqrt(np.sum(abs(mix)**2)/(16000*snr))
-        mix= s1+s2
-        
-        maxsprec = np.max(np.abs(np.concatenate((s1,s2,mix),0)))
-        s1 = s1/(maxsprec*0.9)
-        s2 = s2/(maxsprec*0.9)
-        mix = mix/(maxsprec*0.9)
-        
+        s2, _ = librosa.load(s2_path, sr=sample_rate)  
         # merge s1 and s2
         s = np.dstack((s1, s2))[0]  # T x C, C = 2
         utt_len = mix.shape[-1]
